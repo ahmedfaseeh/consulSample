@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webfront-deployment
+  labels:
+    app: webfront
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webfront
+  template:
+    metadata:
+      labels:
+        app: webfront
+      annotations:
+        "consul.hashicorp.com/connect-inject": "true"
+        "consul.hashicorp.com/connect-service-upstreams": "webapp:1234"
+    spec:
+      containers:
+      - name: webapp
+        image: daljeethcl/webfront
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5000
+
+ 
