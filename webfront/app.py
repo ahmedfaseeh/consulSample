@@ -8,11 +8,6 @@ import urllib.request
 import urllib.parse
 
 
-url = 'http://localhost:1234'
-f = urllib.request.urlopen(url)
-respose=f.read().decode('utf-8')
-
-
 app = Flask(__name__)
 
 
