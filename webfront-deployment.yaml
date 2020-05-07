@@ -18,8 +18,8 @@ spec:
         "consul.hashicorp.com/connect-service-upstreams": "webapp:1234"
     spec:
       containers:
-      - name: webapp
-        image: daljeethcl/webfront
+      - name: webfront
+        image: daljeethcl/webfront:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
