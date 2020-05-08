@@ -13,10 +13,10 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    url = 'http://localhost:1234'
+    url = os.getenv('BACKEND_URL')
     f = urllib.request.urlopen(url)
     res = f.read().decode('utf-8')
-    return "welcome, frontend is running on : " + socket.gethostname() +"<p> And Backend Response is :<p>" + res
+    return " Welcome, frontend is running on : " + socket.gethostname() + "<p> Backend Response is :<p>" + res + "<p> value of BACKEND_URL env variable is " + url 
  
 
 @app.route("/health")

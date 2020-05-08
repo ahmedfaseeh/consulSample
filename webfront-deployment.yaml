@@ -13,13 +13,13 @@ spec:
     metadata:
       labels:
         app: webfront
-      annotations:
-        "consul.hashicorp.com/connect-inject": "true"
-        "consul.hashicorp.com/connect-service-upstreams": "webapp:1234"
     spec:
       containers:
       - name: webfront
-        image: daljeethcl/webfront:latest
+        image: daljeethcl/webfront:1.0
+        env:
+        - name: BACKEND_URL
+          value: "http://webservice"            
         imagePullPolicy: Always
         ports:
         - containerPort: 5000
