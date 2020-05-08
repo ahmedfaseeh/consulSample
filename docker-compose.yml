@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+   webapi:
+     image: daljeethcl/web-app:latest
+     restart: always
+
+   webfront:
+     depends_on:
+       - webapi
+     image: daljeethcl/webfront:1.0
+     ports:
+       - "5000:5000"
+     restart: always
+     environment:
+             BACKEND_URL: http://webapi:5000
