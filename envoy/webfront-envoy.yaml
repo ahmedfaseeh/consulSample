@@ -14,58 +14,35 @@ static_resources:
           route_config:
             name: local_route
             virtual_hosts:
-            - name: backend
+            - name: service
               domains:
               - "*"
               routes:
               - match:
                   prefix: "/webfront"
                 route:
-                  cluster: webfront
-              - match:
-                  prefix: "/webapi"
-                route:
-                  cluster: webapi
+                  prefix_rewrite: "/"
+                  cluster: local_service
           http_filters:
           - name: envoy.filters.http.router
             typed_config: {}
-
   clusters:
-  - name: webfront
+  - name: local_service
     connect_timeout: 0.25s
     type: strict_dns
     lb_policy: round_robin
-    http2_protocol_options: {}
     load_assignment:
-      cluster_name: webfront
+      cluster_name: local_service
       endpoints:
       - lb_endpoints:
         - endpoint:
             address:
               socket_address:
-                address: webfront
-                port_value: 80
-
-  - name: webapi
-    connect_timeout: 0.25s
-    type: strict_dns
-    lb_policy: round_robin
-    http2_protocol_options: {}
-    load_assignment:
-      cluster_name: webapi
-      endpoints:
-      - lb_endpoints:
-        - endpoint:
-            address:
-              socket_address:
-                address: webapi
-                port_value: 80
-                
+                address: 127.0.0.1
+                port_value: 5000
 admin:
   access_log_path: "/dev/null"
   address:
     socket_address:
       address: 0.0.0.0
-      port_value: 8001                
-
-                  
+      port_value: 8081

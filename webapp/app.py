@@ -7,9 +7,11 @@ import socket
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/index')
 def main():
-    return "welcome, python is running on hostname : " + socket.gethostname()
+    hostname = socket.gethostname()
+    host_ip = socket.gethostbyname(hostname) 
+    return "welcome, Backend Api is running on hostname : " + hostname +"<p> Backend IP Address is " + host_ip
  
 
 @app.route("/health")
@@ -17,4 +19,4 @@ def health():
     return "OK"    
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='127.0.0.1',debug="true")
