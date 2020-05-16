@@ -1,0 +1,32 @@
+version: '3.3'
+
+services:  
+ 
+  ingress:
+    build:
+      context: .
+      dockerfile: Dockerfile-ingress
+    volumes:
+      - ./ingress.yaml:/etc/ingress.yaml
+    ports:
+      - "8000:80"
+      - "8001:8001"
+
+  webapi:
+    image: daljeethcl/web-app:latest
+    restart: always
+    environment:
+      - SERVICE_NAME=webapi    
+
+  webfront:
+    depends_on:
+      - webapi
+    image: daljeethcl/webfront:1.0
+    restart: always
+    environment:
+      BACKEND_URL: http://webapi:5000
+    environment:
+      - SERVICE_NAME=webfront 
+    
+
+       
