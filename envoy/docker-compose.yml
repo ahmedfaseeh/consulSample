@@ -20,8 +20,6 @@ services:
       context: ../webapp/
       dockerfile: Dockerfile
     restart: always
-    environment:
-      - SERVICE_NAME=webapi
     networks:
       vpcbr:
         ipv4_address: 10.5.0.3
@@ -38,10 +36,10 @@ services:
       - webapi
     image: daljeethcl/webfront:1.0
     restart: always
+    volumes:
+    - ../webfront/app.py:/app/app.py
     environment:
-      BACKEND_URL: http://webapi:5000
-    environment:
-      - SERVICE_NAME=webfront 
+      - BACKEND_URL=google.com 
     networks:
       vpcbr:
         ipv4_address: 10.5.0.4
