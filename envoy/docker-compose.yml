@@ -11,25 +11,24 @@ services:
     ports:
       - "8000:80"
       - "8001:8001"
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.2    
+        
 
   webapi:
     build:
       context: ../webapp/
       dockerfile: Dockerfile
     restart: always
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.3
 
-  webapi_envoy:
-    image: envoyproxy/envoy-alpine-dev:latest
+                       
+  webapi_envoy:                            
+    image: envoyproxy/envoy-alpine-dev:latest 
     volumes:
     - ./webapi-envoy.yaml:/etc/service-envoy.yaml
     command: ["envoy","-c", "/etc/service-envoy.yaml", "--service-cluster", "proxy-webapi"]
     network_mode: "service:webapi"               
+
+
+    
 
   webfront:
     depends_on:
@@ -40,9 +39,7 @@ services:
     - ../webfront/app.py:/app/app.py
     environment:
       - BACKEND_URL=google.com 
-    networks:
-      vpcbr:
-        ipv4_address: 10.5.0.4
+
 
   webfront_envoy:
     image: envoyproxy/envoy-alpine-dev:latest
@@ -51,10 +48,4 @@ services:
     command: ["envoy","-c", "/etc/service-envoy.yaml", "--service-cluster", "proxy-webfront"]
     network_mode: "service:webfront"         
 
-networks:
-  vpcbr:
-    driver: bridge
-    ipam:
-      config:
-      - subnet: 10.5.0.0/16
        
